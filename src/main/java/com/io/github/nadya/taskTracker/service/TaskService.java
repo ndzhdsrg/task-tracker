@@ -1,7 +1,8 @@
 package com.io.github.nadya.taskTracker.service;
 
-/**
- * Содержит бизнес-логику приложения и реализует use case
- */
-public class TaskService {
+import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
+import com.io.github.nadya.taskTracker.dto.create.CreateTaskResponseDto;
+
+public interface TaskService {
+    CreateTaskResponseDto createTask(CreateTaskRequestDto requestDto);
 }
