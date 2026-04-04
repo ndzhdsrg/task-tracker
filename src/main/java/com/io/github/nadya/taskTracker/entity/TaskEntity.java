@@ -1,5 +1,7 @@
 package com.io.github.nadya.taskTracker.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,7 +14,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Entity
 public class TaskEntity {
+    @Id
     private Long id;
     private String title;
     private String description;
@@ -20,4 +24,10 @@ public class TaskEntity {
     private TaskPriority priority;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    /**
+     * Аннотация entity говорит spring о том, что этот класс нудно хранить в БД,
+     * то есть класс становится сущностью и для него создается таблица.
+     * Аннотация id нужна, чтобы spring знал уникальный идентификатор записи
+     */
 }
