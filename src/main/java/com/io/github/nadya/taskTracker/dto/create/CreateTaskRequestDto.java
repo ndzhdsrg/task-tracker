@@ -1,15 +1,16 @@
 package com.io.github.nadya.taskTracker.dto.create;
 
 import com.io.github.nadya.taskTracker.entity.TaskPriority;
-import com.io.github.nadya.taskTracker.entity.TaskStatus;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class CreateTaskRequestDto {
+    @NotBlank(message = "Укажите название задачи")
     private String title;
-    private TaskStatus status;
+    @NotNull(message = "Установите приоритет задачи")
     private TaskPriority priority;
-    private LocalDateTime createdAt;
 }

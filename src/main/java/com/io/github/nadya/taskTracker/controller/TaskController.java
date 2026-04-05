@@ -1,8 +1,8 @@
 package com.io.github.nadya.taskTracker.controller;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
-import com.io.github.nadya.taskTracker.dto.create.CreateTaskResponseDto;
 import com.io.github.nadya.taskTracker.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public Long createTask(@RequestBody CreateTaskRequestDto requestDto) {
+    public Long createTask(@Valid @RequestBody CreateTaskRequestDto requestDto) {
         return taskService.createTask(requestDto);
     }
 }
