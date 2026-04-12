@@ -1,12 +1,14 @@
 package com.io.github.nadya.taskTracker.service;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
+import com.io.github.nadya.taskTracker.dto.read.GetAllTasksResponseDto;
 import com.io.github.nadya.taskTracker.entity.TaskEntity;
 import com.io.github.nadya.taskTracker.entity.TaskStatus;
 import com.io.github.nadya.taskTracker.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -26,6 +28,22 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setCreatedAt(LocalDateTime.now());
         TaskEntity saved = taskRepository.save(taskEntity);
         return  saved.getId();
+    }
+
+    @Override
+    public List<GetAllTasksResponseDto> returnAllTasksList(){
+        //TODO вынести маппинг в отдельный метод
+        return taskRepository.findAll().stream() //обратиться к абстракции для работы с БД
+                .map(taskEntity -> new GetAllTasksResponseDto(
+                        taskEntity.getId(),
+                        taskEntity.getTitle(),
+                        taskEntity.getDescription(),
+                        taskEntity.getStatus(),
+                        taskEntity.getPriority(),
+                        taskEntity.getCreatedAt(),
+                        taskEntity.getUpdatedAt()
+                ))
+                .toList();
     }
 }
 
