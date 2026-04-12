@@ -3,10 +3,8 @@ package com.io.github.nadya.taskTracker.controller;
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
 import com.io.github.nadya.taskTracker.service.TaskService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *  Слой controller служит для работы с http
@@ -26,6 +24,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED) //возвращает статус код 201
     public Long createTask(@Valid @RequestBody CreateTaskRequestDto requestDto) {
         return taskService.createTask(requestDto);
     }
