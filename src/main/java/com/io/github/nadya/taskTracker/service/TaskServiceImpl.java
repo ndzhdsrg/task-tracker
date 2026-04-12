@@ -1,7 +1,7 @@
 package com.io.github.nadya.taskTracker.service;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
-import com.io.github.nadya.taskTracker.dto.read.GetAllTasksResponseDto;
+import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
 import com.io.github.nadya.taskTracker.entity.TaskEntity;
 import com.io.github.nadya.taskTracker.entity.TaskStatus;
 import com.io.github.nadya.taskTracker.repository.TaskRepository;
@@ -31,10 +31,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<GetAllTasksResponseDto> returnAllTasksList(){
+    public List<TaskResponseDto> returnAllTasksList(){
         //TODO вынести маппинг в отдельный метод
         return taskRepository.findAll().stream() //обратиться к абстракции для работы с БД
-                .map(taskEntity -> new GetAllTasksResponseDto(
+                .map(taskEntity -> new TaskResponseDto(
                         taskEntity.getId(),
                         taskEntity.getTitle(),
                         taskEntity.getDescription(),
@@ -45,5 +45,20 @@ public class TaskServiceImpl implements TaskService {
                 ))
                 .toList();
     }
-}
 
+    @Override
+    public TaskResponseDto getTask(Long id){
+        //TODO вынести маппинг в отдельный метод
+        return taskRepository.findById(id)
+                .map(taskEntity -> new TaskResponseDto(
+                        taskEntity.getId(),
+                        taskEntity.getTitle(),
+                        taskEntity.getDescription(),
+                        taskEntity.getStatus(),
+                        taskEntity.getPriority(),
+                        taskEntity.getCreatedAt(),
+                        taskEntity.getUpdatedAt()
+                ))
+                .orElseThrow(() -> new RuntimeException("По id " + id + " ничего не найдено"));
+    }
+}

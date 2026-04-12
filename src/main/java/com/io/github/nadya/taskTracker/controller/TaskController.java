@@ -1,7 +1,7 @@
 package com.io.github.nadya.taskTracker.controller;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
-import com.io.github.nadya.taskTracker.dto.read.GetAllTasksResponseDto;
+import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
 import com.io.github.nadya.taskTracker.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,13 @@ public class TaskController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<GetAllTasksResponseDto> getAllTasks() {
+    public List<TaskResponseDto> getAllTasks() {
         return taskService.returnAllTasksList();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskResponseDto getTask(@PathVariable("id") Long id) {
+        return taskService.getTask(id);
     }
 }
