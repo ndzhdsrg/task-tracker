@@ -1,10 +1,13 @@
 package com.io.github.nadya.taskTracker.controller;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
+import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
 import com.io.github.nadya.taskTracker.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  *  Слой controller служит для работы с http
@@ -27,5 +30,17 @@ public class TaskController {
     @ResponseStatus(HttpStatus.CREATED) //возвращает статус код 201
     public Long createTask(@Valid @RequestBody CreateTaskRequestDto requestDto) {
         return taskService.createTask(requestDto);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskResponseDto> getAllTasks() {
+        return taskService.returnAllTasksList();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskResponseDto getTask(@PathVariable("id") Long id) {
+        return taskService.getTask(id);
     }
 }
