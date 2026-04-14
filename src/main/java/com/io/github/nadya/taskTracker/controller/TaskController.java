@@ -2,6 +2,8 @@ package com.io.github.nadya.taskTracker.controller;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
 import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
+import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusResponseDto;
+import com.io.github.nadya.taskTracker.entity.TaskStatus;
 import com.io.github.nadya.taskTracker.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -42,5 +44,12 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public TaskResponseDto getTask(@PathVariable("id") Long id) {
         return taskService.getTask(id);
+    }
+
+    @PatchMapping("/{id}/status")
+    @ResponseStatus(HttpStatus.OK)
+    public UpdateTaskStatusResponseDto updateTaskStatus(@PathVariable("id") Long id,
+                                                        @Valid @RequestBody TaskStatus status) {
+        return taskService.updateTaskStatus(id, status);
     }
 }

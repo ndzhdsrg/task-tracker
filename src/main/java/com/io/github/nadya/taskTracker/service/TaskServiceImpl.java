@@ -66,13 +66,17 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public UpdateTaskStatusResponseDto updateTaskStatus(Long id, TaskStatus status) {
-        UpdateTaskStatusResponseDto responseDto = new UpdateTaskStatusResponseDto();
         Optional<TaskEntity> task = taskRepository.findById(id);
-        responseDto.se
-        task.get().setStatus(status);
-        task.get().setUpdatedAt(LocalDateTime.now());
+        TaskEntity taskEntity = task.get();
+        taskEntity.setStatus(status);
+        taskEntity.setUpdatedAt(LocalDateTime.now());
+        taskRepository.save(taskEntity);
 
-
+        return new UpdateTaskStatusResponseDto(
+                task.get().getStatus(),
+                task.get().getUpdatedAt(),
+                true
+        );
 
     }
 }
