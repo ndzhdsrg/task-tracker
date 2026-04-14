@@ -2,6 +2,7 @@ package com.io.github.nadya.taskTracker.service;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
 import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
+import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusRequestDto;
 import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusResponseDto;
 import com.io.github.nadya.taskTracker.entity.TaskEntity;
 import com.io.github.nadya.taskTracker.entity.TaskStatus;
@@ -65,10 +66,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public UpdateTaskStatusResponseDto updateTaskStatus(Long id, TaskStatus status) {
+    public UpdateTaskStatusResponseDto updateTaskStatus(Long id, UpdateTaskStatusRequestDto requestDto) {
         Optional<TaskEntity> task = taskRepository.findById(id);
         TaskEntity taskEntity = task.get();
-        taskEntity.setStatus(status);
+        taskEntity.setStatus(requestDto.getStatus());
         taskEntity.setUpdatedAt(LocalDateTime.now());
         taskRepository.save(taskEntity);
 
