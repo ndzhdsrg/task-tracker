@@ -2,6 +2,8 @@ package com.io.github.nadya.taskTracker.service;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
 import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
+import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusRequestDto;
+import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusResponseDto;
 import com.io.github.nadya.taskTracker.entity.TaskEntity;
 import com.io.github.nadya.taskTracker.entity.TaskStatus;
 import com.io.github.nadya.taskTracker.repository.TaskRepository;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -60,5 +63,21 @@ public class TaskServiceImpl implements TaskService {
                         taskEntity.getUpdatedAt()
                 ))
                 .orElseThrow(() -> new RuntimeException("По id " + id + " ничего не найдено"));
+    }
+
+    @Override
+    public UpdateTaskStatusResponseDto updateTaskStatus(Long id, UpdateTaskStatusRequestDto requestDto) {
+        Optional<TaskEntity> task = taskRepository.findById(id);
+        TaskEntity taskEntity = task.get();
+        taskEntity.setStatus(requestDto.getStatus());
+        taskEntity.setUpdatedAt(LocalDateTime.now());
+        taskRepository.save(taskEntity);
+
+        return new UpdateTaskStatusResponseDto(
+                task.get().getStatus(),
+                task.get().getUpdatedAt(),
+                true
+        );
+
     }
 }
