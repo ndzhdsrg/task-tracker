@@ -7,6 +7,7 @@ import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusRequestDto;
 import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusResponseDto;
 import com.io.github.nadya.taskTracker.entity.TaskEntity;
 import com.io.github.nadya.taskTracker.entity.TaskStatus;
+import com.io.github.nadya.taskTracker.exception.TaskNotFoundException;
 import com.io.github.nadya.taskTracker.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -63,12 +64,13 @@ public class TaskServiceImpl implements TaskService {
                         taskEntity.getCreatedAt(),
                         taskEntity.getUpdatedAt()
                 ))
-                .orElseThrow(() -> new RuntimeException("По id " + id + " ничего не найдено"));
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     @Override
     public UpdateTaskStatusResponseDto updateTaskStatus(Long id, UpdateTaskStatusRequestDto requestDto) {
-        Optional<TaskEntity> task = taskRepository.findById(id);
+        Optional<TaskEntity> task = Optional.of(taskRepository.findById(id).orElseThrow(()
+                -> new TaskNotFoundException(id)));
         TaskEntity taskEntity = task.get();
         taskEntity.setStatus(requestDto.getStatus());
         taskEntity.setUpdatedAt(LocalDateTime.now());
@@ -84,7 +86,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public DeleteTaskResponseDto deleteTask(Long id) {
-        Optional<TaskEntity> task = taskRepository.findById(id);
+        Optional<TaskEntity> task = Optional.of(taskRepository.findById(id).orElseThrow(()
+                                                -> new TaskNotFoundException(id)));
         TaskEntity taskEntity = task.get();
         taskRepository.delete(taskEntity);
         DeleteTaskResponseDto responseDto = new DeleteTaskResponseDto();
