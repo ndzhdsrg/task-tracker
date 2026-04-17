@@ -1,6 +1,7 @@
 package com.io.github.nadya.taskTracker.service;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
+import com.io.github.nadya.taskTracker.dto.delete.DeleteTaskResponseDto;
 import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
 import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusRequestDto;
 import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusResponseDto;
@@ -79,5 +80,15 @@ public class TaskServiceImpl implements TaskService {
                 true
         );
 
+    }
+
+    @Override
+    public DeleteTaskResponseDto deleteTask(Long id) {
+        Optional<TaskEntity> task = taskRepository.findById(id);
+        TaskEntity taskEntity = task.get();
+        taskRepository.delete(taskEntity);
+        DeleteTaskResponseDto responseDto = new DeleteTaskResponseDto();
+        responseDto.setDeleted(true);
+        return responseDto;
     }
 }
