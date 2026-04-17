@@ -1,6 +1,7 @@
 package com.io.github.nadya.taskTracker.controller;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
+import com.io.github.nadya.taskTracker.dto.delete.DeleteTaskResponseDto;
 import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
 import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusRequestDto;
 import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusResponseDto;
@@ -52,5 +53,11 @@ public class TaskController {
     public UpdateTaskStatusResponseDto updateTaskStatus(@PathVariable("id") Long id,
                                                         @Valid @RequestBody UpdateTaskStatusRequestDto updateTaskStatusResponseDto) {
         return taskService.updateTaskStatus(id, updateTaskStatusResponseDto);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public DeleteTaskResponseDto deleteTask(@PathVariable("id") Long id) {
+        return taskService.deleteTask(id);
     }
 }

@@ -1,10 +1,10 @@
 package com.io.github.nadya.taskTracker.service;
 
 import com.io.github.nadya.taskTracker.dto.create.CreateTaskRequestDto;
+import com.io.github.nadya.taskTracker.dto.delete.DeleteTaskResponseDto;
 import com.io.github.nadya.taskTracker.dto.read.TaskResponseDto;
 import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusRequestDto;
 import com.io.github.nadya.taskTracker.dto.update.UpdateTaskStatusResponseDto;
-import com.io.github.nadya.taskTracker.entity.TaskStatus;
 
 import java.util.List;
 
@@ -20,5 +20,8 @@ public interface TaskService {
 
     //Обновить статус задачи
     UpdateTaskStatusResponseDto updateTaskStatus(Long id, UpdateTaskStatusRequestDto requestDto);
+
+    //Удалить задачу
+    DeleteTaskResponseDto deleteTask(Long id);
 }
 
